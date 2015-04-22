@@ -1,0 +1,49 @@
+{
+  "name": "uptodate",
+  "version": "1.0.0",
+  "description": "A CLI tool to update dependencies in your package.json",
+  "main": "lib/command.js",
+  "scripts": {
+    "clean": "rimraf lib",
+    "lint": "eslint src",
+    "build": "npm-run-all clean lint && babel src --out-dir lib",
+    "test": "npm run build && istanbul cover node_modules/mocha/bin/_mocha test/*.js --require mocha-babel-hook --colors",
+    "testing": "mocha test/*.js --require mocha-babel-hook --colors --watch --growl",
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mysticatea/uptodate.git"
+  },
+  "keywords": [
+    "cli",
+    "commandline",
+    "tool",
+    "update",
+    "upgrade",
+    "up-to-date",
+    "npm",
+    "package.json",
+    "dependency",
+    "dependencies"
+  ],
+  "author": "Toru Nagashima",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mysticatea/uptodate/issues"
+  },
+  "homepage": "https://github.com/mysticatea/uptodate#readme",
+  "dependencies": {
+    "open": "0.0.5"
+  },
+  "devDependencies": {
+    "babel": "^5.1.11",
+    "babel-core": "^5.1.11",
+    "babel-plugin-espower": "^0.2.1",
+    "eslint": "^0.19.0",
+    "istanbul": "^0.3.13",
+    "mocha": "^2.2.4",
+    "npm-run-all": "^1.2.3",
+    "power-assert": "^0.11.0",
+    "rimraf": "^2.3.2"
+  }
+}
