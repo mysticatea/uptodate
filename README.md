@@ -24,8 +24,8 @@ Options:
   -h, --help            Print this text.
   -v, --version         Print the version number.
   --ignore <NAMES>      Ignore package names (comma separated).
-  --no-show-changelog   Don't show changelogs on your default browser.
   --no-save             Don't rewrite package.json
+  --no-show-changelog   Don't show changelogs on your default browser.
 ```
 
 ## Example
@@ -49,6 +49,8 @@ var uptodate = require("uptodate");
 Do the process as same as `uptodate` command.
 
 * **options** `object` -- Optional.
+  * **cwd** `string` -- A directory path. This opens package.json of here.
+    By default, `process.cwd()`.
   * **options.ignore** `string[]` -- Package names. This ignores the packages
     even if is out-dated.
   * **options.noSave** `boolean` -- A flag that to not rewrite package.json.
