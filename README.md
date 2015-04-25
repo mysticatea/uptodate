@@ -6,6 +6,9 @@
 
 A CLI tool to update dependencies in your package.json.
 
+- This tool rewrites package.json.
+- This tool shows changelog of updated dependent modules after update.
+
 ## Installation
 
 ```
