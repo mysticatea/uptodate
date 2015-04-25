@@ -131,7 +131,7 @@ export default function main(args, metaOptions, callback) {
 }
 
 if (require.main === module) {
-  main(process.args.slice(2), null, err => {
+  main(process.argv.slice(2), null, err => {
     if (err) {
       console.error("ERROR:", err.message);
       process.exit(1); //eslint-disable-line no-process-exit
