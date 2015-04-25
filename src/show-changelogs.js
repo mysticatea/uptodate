@@ -1,18 +1,14 @@
 import btoa from "btoa";
 import open from "opener";
 import {join} from "path";
-import {getRepoName} from "./npm-commands";
+import {readRepositoryName} from "./package-json";
 import Promise from "./promise";
 
 const PREFIX = `file://${join(__dirname, "./view.html")}?`;
 
-export default function showChangelogs(packageNames) {
-  if (packageNames == null || packageNames.length === 0) {
-    return Promise.resolve();
-  }
-
+export default function showChangelogs(cwd, packageNames) {
   const repoNamePromises = packageNames.map(name =>
-    getRepoName(name).then(repo =>
+    readRepositoryName(cwd, name).then(repo =>
       encodeURIComponent(repo ? `${name}:${repo}` : name))
   );
   return Promise.all(repoNamePromises)

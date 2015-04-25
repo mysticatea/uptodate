@@ -4,6 +4,10 @@ import {getOutdated, install} from "./npm-commands";
 
 const has = Function.call.bind(Object.prototype.hasOwnProperty);
 
+function toNameWithVer(info) {
+  return info.name + "@" + info.latest;
+}
+
 export default function uptodate(options, callback) {
   if (typeof options === "function") {
     callback = options;
@@ -30,14 +34,18 @@ export default function uptodate(options, callback) {
 
       // For dependencies
       const depPackages = packages.filter(pkg => has(deps, pkg.name));
-      emitter.emit("dependencies", depPackages);
-      return install(depPackages, "production", noSave);
+      if (depPackages.length > 0) {
+        emitter.emit("dependencies", depPackages);
+        return install(depPackages.map(toNameWithVer), "production", noSave);
+      }
     })
     .then(() => {
       // For devDependencies
-      const devDepPackages = packages.filter(pkg => has(devDeps, pkg.name));
-      emitter.emit("devDependencies", devDepPackages);
-      return install(devDepPackages, "development", noSave);
+      const depPackages = packages.filter(pkg => has(devDeps, pkg.name));
+      if (depPackages.length > 0) {
+        emitter.emit("devDependencies", depPackages);
+        return install(depPackages.map(toNameWithVer), "development", noSave);
+      }
     })
     .then(
       () => {

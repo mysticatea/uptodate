@@ -1,5 +1,4 @@
 import {spawn} from "child_process";
-import getUrl from "github-url-from-git";
 import which from "which";
 import Promise from "./promise";
 
@@ -33,19 +32,25 @@ function execNpm(args, cwd) {
   return new Promise((resolve, reject) => {
     whichNpm()
       .then(npm => {
-        var result = "";
-        var cp = spawn(npm, args, {cwd});
-        cp.on("exit", () => resolve(result));
+        let buf = "";
+        const cp = spawn(npm, args, {cwd, stdio: ["ignore", "pipe", "ignore"]});
+        cp.on("exit", code => {
+          if (code === 0) {
+            resolve(buf);
+          }
+          else {
+            reject(new Error(`non-zero exit(${code})`));
+          }
+        });
         cp.on("error", reject);
-        cp.stdout.setEncoding("utf8");
-        cp.stdout.on("data", chunk => result += chunk);
+        cp.stdout.on("data", chunk => buf += chunk.toString());
       })
       .catch(reject);
   });
 }
 
 //------------------------------------------------------------------------------
-const ROW_PATTERN = /^([a-z\-@]+)\s+(\S+)\s+(\S+)\s+(\S+)/m;
+const ROW_PATTERN = /^([a-z0-9\-@\/]+)\s+([a-zA-Z0-9\.\-\+]+)\s+([a-zA-Z0-9\.\-\+]+)\s+([a-zA-Z0-9\.\-\+]+)/mg;
 export function getOutdated(ignoreList) {
   var ignoreMap = toMap(ignoreList);
   return execNpm(["outdated", "--no-color"]).then(result => {
@@ -65,12 +70,17 @@ export function getOutdated(ignoreList) {
       }
     }
 
+    retv.sort((a, b) =>
+      a.name < b.name ? -1 :
+      a.name > b.name ? +1 :
+      /* otherwise */ 0
+    );
     return retv;
   });
 }
 
 //------------------------------------------------------------------------------
-export function install(packageNames, kind, noSave) {
+export function install(packageNames, kind = "production", noSave = false) {
   if (packageNames.length === 0) {
     return Promise.resolve(null);
   }
@@ -82,8 +92,8 @@ export function install(packageNames, kind, noSave) {
       case "production":
         args.push("--save");
         break;
-      case "dev":
       case "development":
+      case "dev":
         args.push("--save-dev");
         break;
     }
@@ -92,16 +102,4 @@ export function install(packageNames, kind, noSave) {
 
   // Execute
   return execNpm(args);
-}
-
-//------------------------------------------------------------------------------
-const REPO_NAME = /^https:\/\/github\.com\/(.+)$/;
-export function getRepoName(packageName) {
-  return execNpm(["view", packageName, "repository.url"])
-    .then(repo => {
-      const url = getUrl(repo);
-      const m = REPO_NAME.exec(url);
-      return m && m[1];
-    })
-    .catch(() => null);
 }

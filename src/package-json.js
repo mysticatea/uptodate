@@ -1,5 +1,6 @@
 import {readFile} from "fs";
 import {join} from "path";
+import getGitHubUrl from "github-url-from-git";
 import Promise from "./promise";
 
 export function readPackageJson(cwd) {
@@ -24,4 +25,19 @@ export function readPackageJson(cwd) {
       resolve(parsed);
     });
   });
+}
+
+const REPO_NAME = /^https:\/\/github\.com\/(.+)$/;
+export function readRepositoryName(cwd, packageName) {
+  return readPackageJson(join(cwd, "node_modules", packageName))
+    .then(info => {
+      const repository = info && info.repository;
+      const gitUrl = repository && repository.url;
+      const githubUrl = gitUrl && getGitHubUrl(gitUrl);
+      const m = githubUrl && REPO_NAME.exec(githubUrl);
+      return m && m[1];
+    })
+    .catch(() => {
+      return null;
+    });
 }
