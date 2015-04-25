@@ -50,7 +50,7 @@ describe("uptodate command", () => {
     return command([])
       .then(() => {
         assert(opener.calls.length === 1);
-        assert(/\?JTQwbXlzdGljYXRlYSUyRnVwdG9kYXRlLXRlc3QtcGFja2FnZTEsJTQwbXlzdGljYXRlYSUyRnVwdG9kYXRlLXRlc3QtcGFja2FnZTIsJTQwbXlzdGljYXRlYSUyRnVwdG9kYXRlLXRlc3QtcGFja2FnZTM=/.test(opener.calls[0].url));
+        assert(opener.calls[0].url === "https://mysticatea.github.io/uptodate/changelog-viewer/?JTQwbXlzdGljYXRlYSUyRnVwdG9kYXRlLXRlc3QtcGFja2FnZTEsJTQwbXlzdGljYXRlYSUyRnVwdG9kYXRlLXRlc3QtcGFja2FnZTIsJTQwbXlzdGljYXRlYSUyRnVwdG9kYXRlLXRlc3QtcGFja2FnZTM=");
       });
   });
 

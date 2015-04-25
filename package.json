@@ -1,5 +1,4 @@
 {
-  "private": true,
   "name": "uptodate",
   "version": "1.0.0",
   "description": "A CLI tool to update dependencies in your package.json",
@@ -15,11 +14,9 @@
     "cpx": "^1.0.0",
     "es6-promise": "^2.1.1",
     "github-url-from-git": "^1.4.0",
-    "markdown-it": "^4.2.0",
     "minimist": "^1.1.1",
     "npm-run-all": "^1.0.0",
     "opener": "^1.4.1",
-    "whatwg-fetch": "^0.7.0",
     "which": "^1.0.9"
   },
   "devDependencies": {

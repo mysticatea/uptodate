@@ -1,10 +1,9 @@
 import btoa from "btoa";
 import open from "opener";
-import {join} from "path";
 import {readRepositoryName} from "./package-json";
 import Promise from "./promise";
 
-const PREFIX = `file://${join(__dirname, "./view.html")}?`;
+const PREFIX = "https://mysticatea.github.io/uptodate/changelog-viewer/?";
 
 export default function showChangelogs(cwd, packageNames) {
   const repoNamePromises = packageNames.map(name =>

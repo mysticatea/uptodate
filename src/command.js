@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import minimist from "minimist";
 import uptodate from "./";
 import showChangelogs from "./show-changelogs";
