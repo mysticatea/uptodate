@@ -11,7 +11,6 @@
   ],
   "dependencies": {
     "btoa": "^1.1.2",
-    "cpx": "^1.0.0",
     "es6-promise": "^2.1.1",
     "github-url-from-git": "^1.4.0",
     "minimist": "^1.1.1",
@@ -25,7 +24,7 @@
     "babel-plugin-espower": "^0.2.2",
     "coveralls": "^2.11.2",
     "cpx": "^1.1.6",
-    "eslint": "^0.19.0",
+    "eslint": "^0.20.0",
     "istanbul": "^0.3.13",
     "mkdirp": "^0.5.0",
     "mocha": "^2.2.4",
@@ -37,12 +36,7 @@
   "scripts": {
     "clean": "rimraf lib",
     "lint": "eslint src",
-    "build": "npm-run-all clean lint build:*",
-    "build:js": "babel src --out-dir lib",
-    "build:html": "cpx \"src/*.{html,css}\" lib",
-    "watch": "npm-run-all clean --parallel watch:*",
-    "watch:js": "npm run build:js -- --watch --source-maps-inline",
-    "watch:html": "npm run build:html -- --watch --verbose",
+    "build": "npm-run-all clean lint && babel src --out-dir lib",
     "test": "eslint src && istanbul cover node_modules/mocha/bin/_mocha -- test/*.js --require mocha-babel-hook --colors --timeout 30000",
     "testing": "mocha test/*.js --require mocha-babel-hook --colors --watch --growl --timeout 30000",
     "coveralls": "cat coverage/lcov.info | coveralls"
