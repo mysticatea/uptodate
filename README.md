@@ -6,9 +6,6 @@
 
 A CLI tool to update dependencies in your package.json.
 
-- This tool rewrites package.json.
-- This tool shows changelog of updated dependent modules after update.
-
 ## Installation
 
 ```
@@ -20,15 +17,17 @@ npm install -g uptodate
 ```
 Usage: uptodate [OPTIONS]
 
-  It opens package.json and check its dependencies/devDependencies.
-  If there are out-dated packages, it updates them and rewrite the package.json.
+  It opens a package.json and checks its dependencies/devDependencies.
+  If there are out-dated packages, it updates them and rewrites the package.json
+  Lastly, it takes changelogs from GitHub if is possible, and shows summary of
+  them in a browser.
 
 Options:
   -h, --help            Print this text.
   -v, --version         Print the version number.
   --ignore <NAMES>      Ignore package names (comma separated).
-  --no-save             Don't rewrite package.json
-  --no-show-changelog   Don't show changelogs on your default browser.
+  --no-save             Don't rewrite package.json.
+  --no-show-changelog   Don't show changelogs in a browser.
 ```
 
 ## Example
@@ -49,17 +48,20 @@ var uptodate = require("uptodate");
 
 ### uptodate(options, callback)
 
-Do the process as same as `uptodate` command.
+It opens a package.json and checks its dependencies/devDependencies.
+If there are out-dated packages, it updates them and rewrites the package.json.
 
-* **options** `object` -- Optional.
-  * **cwd** `string` -- A directory path. This opens package.json of here.
+- **options** `object` -- Optional.
+  - **options.cwd** `string` -- A directory path. This opens package.json of here.
     By default, `process.cwd()`.
-  * **options.ignore** `string[]` -- Package names. This ignores the packages
+  - **options.ignore** `string[]` -- Package names. This ignores the packages
     even if is out-dated.
-  * **options.noSave** `boolean` -- A flag that to not rewrite package.json.
-* **callback** `(err: Error|null, result: object|null) => void` -- Optional.
+  - **options.noSave** `boolean` -- A flag that to not rewrite package.json.
+- **callback** `(err: Error|null, result: object[]|null) => void` -- Optional.
   A callback that will be called at done.
   `err` is not `null` if failed.
-  `result` is an object. Its keys are the updated package names. Its each value
-  is an instance of
-  `{oldVersion: string, newVersion: string, changelogUri: string}`.
+  `result` is an array. Its each value is an instance of
+  `{name: string, current: string, latest: string}`.
+  - `name` is the package name.
+  - `current` is a version text before updating.
+  - `latest` is a version text after updating probably.

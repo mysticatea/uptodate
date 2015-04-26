@@ -8,15 +8,17 @@ function printHelp(stdout) {
   stdout.write(`
 Usage: uptodate [OPTIONS]
 
-  It opens package.json and check its dependencies/devDependencies.
-  If there are out-dated packages, it updates them and rewrite the package.json.
+  It opens a package.json and checks its dependencies/devDependencies.
+  If there are out-dated packages, it updates them and rewrites the package.json
+  Lastly, it takes changelogs from GitHub if is possible, and shows summary of
+  them in a browser.
 
 Options:
   -h, --help            Print this text.
   -v, --version         Print the version number.
   --ignore <NAMES>      Ignore package names (comma separated).
-  --no-save             Don't rewrite package.json
-  --no-show-changelog   Don't show changelogs on your default browser.
+  --no-save             Don't rewrite package.json.
+  --no-show-changelog   Don't show changelogs in a browser.
 
 See Also: https://github.com/mysticatea/uptodate
 
