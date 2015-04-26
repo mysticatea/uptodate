@@ -1,6 +1,6 @@
 {
   "name": "uptodate",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A CLI tool to update dependencies in your package.json",
   "main": "lib/command.js",
   "bin": {
